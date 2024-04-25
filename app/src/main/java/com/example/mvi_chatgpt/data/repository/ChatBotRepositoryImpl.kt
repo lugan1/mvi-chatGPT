@@ -1,7 +1,10 @@
 package com.example.mvi_chatgpt.data.repository
 
+import com.aallam.openai.api.audio.TranscriptionRequest
 import com.aallam.openai.api.chat.ChatCompletionRequest
 import com.aallam.openai.api.chat.ChatMessage
+import com.aallam.openai.api.file.FileSourceBuilder
+import com.aallam.openai.api.file.fileSource
 import com.aallam.openai.api.model.ModelId
 import com.aallam.openai.client.OpenAI
 import kotlinx.coroutines.Dispatchers
@@ -26,5 +29,6 @@ class ChatBotRepositoryImpl @Inject constructor(
             .content
         println(botMessage)
         botMessage?.let { emit(it) }
+
     }.flowOn(Dispatchers.IO)
 }

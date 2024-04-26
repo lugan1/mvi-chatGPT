@@ -35,15 +35,15 @@ ChatGPT Compose 앱은 MVI(Model-View-Intent)를 적용해 MVVM 패턴과의 어
     * [Android KTX](https://developer.android.com/kotlin/ktx) - Jetpack Kotlin extensions
     
 ## Architecture
-프로젝트의 구조는 뷰(View), 프리젠테이션(Presentation), 모델(Model) 컴포넌트 간의 책임 분담이 명확하며, Jetpack Compose의 강력한 기능과 함께 Model-View-Intent (MVI) 패턴을 구현합니다.
+프로젝트의 구조는 뷰(View), 프리젠테이션(Presentation), 모델(Model) 으로 나뉘어져 있으며 Model-View-Intent (MVI) 패턴을 구현합니다.
 <br/>
 
 ![1_xprZjYydI9YhVKC3CKp-dQ (1)](https://github.com/lugan1/mvi-chatGPT/assets/39528583/d44304b7-3e6f-4e0b-acf5-e4679785bd6e)
 
 Architecture layers:
-* 뷰(View) - 상태(State) 와 바인딩되고, Effect를 를 감지하고, 이벤트를 위임하는 Composable 화면.
+* 뷰(View) - 상태(State) 와 바인딩되고, Effect를 를 감지하고, 이벤트를 위임하는 컴포즈 화면.
 * 뷰모델(ViewModel) - 해당 화면의 상태를 관리하고 사용자의 Intent(Event)를 수신하면 UI상태를 변경(Reduce)합니다. 추가로, UI 이벤트를 가로채고 Side Effect를 발생시킵니다. 뷰모델의 수명 주기는 해당 화면 컴포저블과 연결되어 있습니다.
-* 모델(Model) - 데이터를 검색하는 저장소 클래스입니다. 클린 아키텍처 컨텍스트에서는 저장소를 활용하는 유스케이스를 사용해야 합니다.
+* 모델(Model) - 변경될 수 있는 데이터들을 의미합니다. 모델이 변경되면 컴포즈는 리컴포지션(리렌더링) 을 수행해 UI 를 다시그려야 합니다. 
 
 ![](https://i.imgur.com/UXwFbmv.png)
 

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -65,6 +66,7 @@ fun Test() {
         LaunchedEffect(key1 = Unit) {
             listener.flow
                 .collect{
+                    Log.e("RecordListener", it.toString())
                     recordStatus = it
 
                     when(it) {
@@ -83,9 +85,7 @@ fun Test() {
 
         val speechRecognizer = remember {
             SpeechRecognizer.createSpeechRecognizer(context)
-                .apply {
-                    setRecognitionListener(listener)
-                }
+                .apply { setRecognitionListener(listener) }
         }
 
         if(isShowPermission) {

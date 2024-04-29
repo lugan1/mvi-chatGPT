@@ -20,20 +20,17 @@ class RecordListener: RecognitionListener {
     override fun onBeginningOfSpeech() {
         // 사용자가 말하기 시작
         val result = flow.tryEmit(RecordEffect.OnBeginningOfSpeech)
-
         Log.e("RecordListener", "onBeginningOfSpeech $result")
     }
 
     override fun onRmsChanged(rmsdB: Float) {
         // 사용자의 음성의 크기가 변경될 때 호출
         val result = flow.tryEmit(RecordEffect.OnRmsChanged(rmsdB))
-        Log.e("RecordListener", "onRmsChanged: $rmsdB $result")
+        //Log.e("RecordListener", "onRmsChanged: $rmsdB $result")
     }
 
     override fun onBufferReceived(buffer: ByteArray?) {
         // 말을 시작하고 인식이 된 단어를 buffer에 담음
-
-        Log.e("RecordListener", "onBufferReceived")
         val result = flow.tryEmit(RecordEffect.OnBufferReceived(buffer))
         Log.e("RecordListener", "onBufferReceived $result")
     }
@@ -41,8 +38,6 @@ class RecordListener: RecognitionListener {
     override fun onEndOfSpeech() {
         // 말하기를 중지하면 호출
         // 인식 결과에 따라 onError 또는 onResults 호출
-
-        Log.e("RecordListener", "onEndOfSpeech")
         val result = flow.tryEmit(RecordEffect.OnEndOfSpeech)
         Log.e("RecordListener", "onEndOfSpeech $result")
     }
@@ -98,13 +93,11 @@ class RecordListener: RecognitionListener {
     }
 
     override fun onResults(results: Bundle?) {
-
         // 인식 결과
         val key = SpeechRecognizer.RESULTS_RECOGNITION
         val result = results?.getStringArrayList(key)
 
         Log.e("RecordListener", "onResults $result")
-
         flow.tryEmit(RecordEffect.OnResults(result))
     }
 

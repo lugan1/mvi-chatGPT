@@ -32,6 +32,7 @@ import com.example.mvi_chatgpt.domain.RecordListener
 import com.example.mvi_chatgpt.ui.common.PermissionActivity
 import com.example.mvi_chatgpt.ui.theme.MVIChatGPTTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.filterNot
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -60,22 +61,26 @@ fun Test() {
         var isGranted by remember { mutableStateOf(false) }
         var isRecording by remember { mutableStateOf(false) }
         val listener = remember { RecordListener() }
-        var result by remember { mutableStateOf<List<String>?>(null) }
+        var result by remember { mutableStateOf<String?>(null) }
         var recordStatus by remember { mutableStateOf<RecordEffect?>(null) }
 
         LaunchedEffect(key1 = Unit) {
             listener.flow
-                .collect{
-                    Log.e("RecordListener", it.toString())
-                    recordStatus = it
+                .filterNot { effect -> effect is RecordEffect.OnRmsChanged }
+                .collect { effect ->
+                    recordStatus = effect
 
-                    when(it) {
+                    when(effect) {
                         is RecordEffect.OnResults -> {
-                            result = it.results
+                            result = effect.results?.firstOrNull() ?: ""
                         }
 
                         is RecordEffect.OnError -> {
-                            Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+                        }
+
+                        is RecordEffect.OnEndOfSpeech -> {
+                            isRecording = false
                         }
 
                         else -> Unit

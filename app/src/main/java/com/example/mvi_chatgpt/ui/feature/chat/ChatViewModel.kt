@@ -13,6 +13,7 @@ class ChatViewModel @Inject constructor(
     private val chatBotRepository: ChatBotRepository
 ) : MVIViewModel<ChatContract.Event, ChatContract.State, ChatContract.Effect>() {
     private val currentState get() = viewState.value
+    private var isPermissionGranted = false
 
     override fun setInitialState(): ChatContract.State = ChatContract.State(
         isLoading = false,
@@ -23,6 +24,20 @@ class ChatViewModel @Inject constructor(
             is ChatContract.Event.InputChange -> setState { copy(inputMessage = event.message) }
             ChatContract.Event.Send -> {
                 getChatBotResponse(currentState.inputMessage)
+            }
+
+            ChatContract.Event.RequestPermission -> {
+                setState { copy(isShowPermission = true) }
+            }
+
+            is ChatContract.Event.OnDismissPermission -> {
+                if(isPermissionGranted) {
+                    setEffect { ChatContract.Effect.StartRecording }
+                    setState { copy(isShowPermission = false, isRecording = true) }
+                }
+                else {
+                    setState { copy(isShowPermission = false) }
+                }
             }
         }
     }

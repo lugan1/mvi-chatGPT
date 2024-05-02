@@ -22,6 +22,7 @@ class ChatContract {
 
 
     sealed class Effect: ViewSideEffect {
-
+        data object StartRecording: Effect()
+        data object StopRecording: Effect()
     }
 }

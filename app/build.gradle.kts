@@ -113,4 +113,7 @@ dependencies {
 
     // compose - constraint layout
     implementation (libs.androidx.constraintlayout.compose)
+
+    // lottie
+    implementation (libs.lottie.compose)
 }

@@ -13,9 +13,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -42,6 +45,7 @@ import com.example.mvi_chatgpt.ui.theme.Grey
 import com.example.mvi_chatgpt.ui.theme.MVIChatGPTTheme
 import kotlinx.coroutines.flow.Flow
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen(
     state: ChatContract.State,
@@ -58,6 +62,19 @@ fun ChatScreen(
         modifier = Modifier
             .fillMaxSize()
             .imePadding(),
+        topBar = {
+                 CenterAlignedTopAppBar(
+                     title = { Text(text = "챗봇") },
+                     actions = {
+                         IconButton(onClick = { onEvent(ChatContract.Event.RequestPermission) }) {
+                             Icon(modifier= Modifier.size(20.dp),
+                                 painter = painterResource(id = R.drawable.icon_microphone),
+                                 contentDescription = "녹음"
+                             )
+                         }
+                     }
+                 )
+        },
         containerColor = Color.White
     ) { paddingValues ->
         ConstraintLayout(

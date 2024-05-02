@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.example.mvi_chatgpt.domain.RecordEffect
 import com.example.mvi_chatgpt.domain.RecordListener
 import com.example.mvi_chatgpt.ui.common.PermissionActivity
+import com.example.mvi_chatgpt.ui.navigation.AppNavigation
 import com.example.mvi_chatgpt.ui.theme.MVIChatGPTTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.filterNot
@@ -40,8 +41,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MVIChatGPTTheme {
-                //AppNavigation()
-                Test()
+                AppNavigation()
             }
         }
     }
@@ -60,9 +60,15 @@ fun Test() {
         var isShowPermission by remember { mutableStateOf(false) }
         var isGranted by remember { mutableStateOf(false) }
         var isRecording by remember { mutableStateOf(false) }
-        val listener = remember { RecordListener() }
         var result by remember { mutableStateOf<String?>(null) }
         var recordStatus by remember { mutableStateOf<RecordEffect?>(null) }
+
+        val listener = remember { RecordListener() }
+        val speechRecognizer = remember {
+            SpeechRecognizer.createSpeechRecognizer(context)
+                .apply { setRecognitionListener(listener) }
+        }
+
 
         LaunchedEffect(key1 = Unit) {
             listener.flow
@@ -86,11 +92,6 @@ fun Test() {
                         else -> Unit
                     }
                 }
-        }
-
-        val speechRecognizer = remember {
-            SpeechRecognizer.createSpeechRecognizer(context)
-                .apply { setRecognitionListener(listener) }
         }
 
         if(isShowPermission) {

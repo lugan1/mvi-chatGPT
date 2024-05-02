@@ -27,8 +27,6 @@ class ChatBotRepositoryImpl @Inject constructor(
             .first()
             .message
             .content
-        println(botMessage)
         botMessage?.let { emit(it) }
-
     }.flowOn(Dispatchers.IO)
 }

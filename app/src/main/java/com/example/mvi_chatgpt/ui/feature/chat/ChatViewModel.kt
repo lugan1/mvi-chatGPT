@@ -1,9 +1,9 @@
 package com.example.mvi_chatgpt.ui.feature.chat
 
 import androidx.lifecycle.viewModelScope
+import com.example.mvi_chatgpt.data.model.mapper.toChatMessages
 import com.example.mvi_chatgpt.data.repository.ChatBotRepository
 import com.example.mvi_chatgpt.ui.base.MVIViewModel
-import com.example.mvi_chatgpt.data.model.mapper.toChatMessages
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

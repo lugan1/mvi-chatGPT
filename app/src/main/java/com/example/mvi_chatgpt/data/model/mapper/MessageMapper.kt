@@ -2,8 +2,8 @@ package com.example.mvi_chatgpt.data.model.mapper
 
 import com.aallam.openai.api.chat.ChatMessage
 import com.aallam.openai.api.chat.ChatRole
-import com.example.mvi_chatgpt.ui.feature.chat.ChatRoleType
-import com.example.mvi_chatgpt.ui.feature.chat.UiChatMessage
+import com.example.mvi_chatgpt.ui.common.chat.ChatMessageType
+import com.example.mvi_chatgpt.ui.common.chat.UiChatMessage
 
 fun ChatMessage.toUiMessage(): UiChatMessage {
     return UiChatMessage(
@@ -26,17 +26,17 @@ fun List<UiChatMessage>.toChatMessages(): List<ChatMessage> {
     return map { it.toChatMessage() }
 }
 
-fun ChatRole.toChatRoleType(): ChatRoleType {
+fun ChatRole.toChatRoleType(): ChatMessageType {
     return when (this) {
-        ChatRole.User -> ChatRoleType.USER
-        ChatRole.System -> ChatRoleType.SYSTEM
-        else -> ChatRoleType.SYSTEM
+        ChatRole.User -> ChatMessageType.USER
+        ChatRole.System -> ChatMessageType.BOT
+        else -> ChatMessageType.BOT
     }
 }
 
-fun ChatRoleType.toChatRole(): ChatRole {
+fun ChatMessageType.toChatRole(): ChatRole {
     return when (this) {
-        ChatRoleType.USER -> ChatRole.User
-        ChatRoleType.SYSTEM -> ChatRole.System
+          ChatMessageType.USER -> ChatRole.User
+          ChatMessageType.BOT -> ChatRole.System
     }
 }

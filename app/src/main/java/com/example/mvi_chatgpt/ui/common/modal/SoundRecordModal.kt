@@ -28,9 +28,9 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieAnimatable
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.softnet.temperature.view.ui.component.chat.ChatMessage
+import com.example.mvi_chatgpt.ui.common.chat.Message
 import com.softnet.temperature.view.ui.component.chat.ChatMessageType
-import com.softnet.temperature.view.ui.component.chat.Message
+import com.softnet.temperature.view.ui.component.chat.UiChatMessage
 import com.softnet.temperature.view.ui.theme.TemperatureTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -81,12 +81,12 @@ fun BottomSheetContent(
 
         if(recordState.userMessage.isNotEmpty()) {
             Spacer(modifier = Modifier.height(30.dp))
-            Message(chat = ChatMessage(message = recordState.userMessage, type = ChatMessageType.USER))
+            Message(chat = UiChatMessage(message = recordState.userMessage, type = ChatMessageType.USER))
         }
 
         if(recordState.botMessage.isNotEmpty()) {
             Spacer(modifier = Modifier.height(20.dp))
-            Message(chat = ChatMessage(message = recordState.botMessage, type = ChatMessageType.BOT))
+            Message(chat = UiChatMessage(message = recordState.botMessage, type = ChatMessageType.BOT))
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.softnet.temperature.view.ui.component.chat
+package com.example.mvi_chatgpt.ui.common.chat
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -14,10 +14,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.softnet.temperature.view.ui.theme.Grey
+import com.example.mvi_chatgpt.ui.theme.Grey
 
 @Composable
-fun ColumnScope.Message(chat: ChatMessage) {
+fun ColumnScope.Message(chat: UiChatMessage) {
     Box(
         modifier = Modifier
             .align(if (chat.isUser) Alignment.End else Alignment.Start)

@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "MVI-ChatGPT"
+rootProject.name = "miv-chatGPT"
 include(":app")
  

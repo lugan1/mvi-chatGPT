@@ -40,6 +40,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.example.mvi_chatgpt.R
 import com.example.mvi_chatgpt.ui.common.Keyboard
+import com.example.mvi_chatgpt.ui.common.chat.ChatMessageType
+import com.example.mvi_chatgpt.ui.common.chat.UiChatMessage
+import com.example.mvi_chatgpt.ui.common.chat.defaultMessages
 import com.example.mvi_chatgpt.ui.common.keyboardAsState
 import com.example.mvi_chatgpt.ui.theme.Grey
 import com.example.mvi_chatgpt.ui.theme.MVIChatGPTTheme
@@ -243,7 +246,7 @@ fun ChatScreenPreview() {
             state = ChatContract.State(
                 isLoading = false,
                 messageList = listOf(
-                    UiChatMessage("안녕 GPT야", ChatRoleType.USER),
+                    UiChatMessage("안녕 GPT야", ChatMessageType.USER),
                 ),
             ),
             effectFlow = null,

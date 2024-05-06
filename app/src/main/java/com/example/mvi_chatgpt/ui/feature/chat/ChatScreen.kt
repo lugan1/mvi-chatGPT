@@ -1,5 +1,9 @@
 package com.example.mvi_chatgpt.ui.feature.chat
 
+import android.content.Intent
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,7 +18,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,6 +27,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -34,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,21 +55,45 @@ import com.example.mvi_chatgpt.ui.common.chat.ChatMessageType
 import com.example.mvi_chatgpt.ui.common.chat.UiChatMessage
 import com.example.mvi_chatgpt.ui.common.chat.defaultMessages
 import com.example.mvi_chatgpt.ui.common.keyboardAsState
+import com.example.mvi_chatgpt.ui.common.modal.SoundRecordModal
 import com.example.mvi_chatgpt.ui.theme.Grey
 import com.example.mvi_chatgpt.ui.theme.MVIChatGPTTheme
-import com.softnet.temperature.view.ui.component.soundRecordModal.SoundRecordModal
 import kotlinx.coroutines.flow.Flow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen(
+    speechRecognizer: SpeechRecognizer? = null,
     state: ChatContract.State,
     effectFlow: Flow<ChatContract.Effect>?,
     onEvent: (ChatContract.Event) -> Unit,
 ) {
+    val context = LocalContext.current
+    val snackBarState = remember { SnackbarHostState() }
     LaunchedEffect(key1 = Unit) {
         effectFlow?.collect { effect ->
-            //todo: Side effect 처리
+            when (effect) {
+                is ChatContract.Effect.ShowSnackBar -> {
+                    val message = effect.message ?: context.getString(effect.messageRes!!)
+                    snackBarState.showSnackbar(
+                        message = message,
+                        duration = SnackbarDuration.Short
+                    )
+                }
+                ChatContract.Effect.StartRecording -> {
+                    speechRecognizer?.run {
+                        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+                            .apply {
+                                putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, context.packageName)
+                                putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR")
+                            }
+                        startListening(intent)
+                    }
+                }
+                ChatContract.Effect.StopRecording -> {
+                    speechRecognizer?.run { stopListening() }
+                }
+            }
         }
     }
 
@@ -87,6 +119,12 @@ fun ChatScreen(
                          }
                      }
                  )
+        },
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackBarState,
+                snackbar = { data -> Snackbar(snackbarData = data) }
+            )
         },
         containerColor = Color.White
     ) { paddingValues ->
@@ -140,6 +178,11 @@ fun ChatBotContent(
     LaunchedEffect(state.messageList.size, keyboardState.value == Keyboard.Opened) {
         lazyListState.animateScrollToItem(state.messageList.size)
     }
+
+    LaunchedEffect(key1 = state) {
+        Log.e("ChatScreen", "ChatBotContent: $state")
+    }
+
     LazyColumn(
         state = lazyListState,
         modifier = modifier

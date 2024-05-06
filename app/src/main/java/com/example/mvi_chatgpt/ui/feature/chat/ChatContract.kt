@@ -4,7 +4,7 @@ import com.example.mvi_chatgpt.ui.base.ViewEvent
 import com.example.mvi_chatgpt.ui.base.ViewSideEffect
 import com.example.mvi_chatgpt.ui.base.ViewState
 import com.example.mvi_chatgpt.ui.common.chat.UiChatMessage
-import com.softnet.temperature.view.ui.component.soundRecordModal.RecordUiState
+import com.example.mvi_chatgpt.ui.common.modal.RecordUiState
 
 class ChatContract {
     sealed class Event: ViewEvent {
@@ -28,5 +28,7 @@ class ChatContract {
     sealed class Effect: ViewSideEffect {
         data object StartRecording: Effect()
         data object StopRecording: Effect()
+
+        data class ShowSnackBar(val message: String? = null, val messageRes: Int? = null): Effect()
     }
 }

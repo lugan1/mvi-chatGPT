@@ -1,4 +1,4 @@
-package com.softnet.temperature.view.ui.component.soundRecordModal
+package com.example.mvi_chatgpt.ui.common.modal
 
 data class RecordUiState(
     val systemMessage : String = "...",

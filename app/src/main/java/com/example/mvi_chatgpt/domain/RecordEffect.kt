@@ -25,7 +25,7 @@ sealed interface RecordEffect {
     }
 
     data object OnEndOfSpeech : RecordEffect
-    data class OnError(val message: String) : RecordEffect
+    data class OnError(val error: SpeechError) : RecordEffect
     data class OnResults(val results: List<String>?) : RecordEffect
     data object OnPartialResults : RecordEffect
     data object OnEvent : RecordEffect

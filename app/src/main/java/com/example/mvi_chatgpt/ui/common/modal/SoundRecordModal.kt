@@ -1,4 +1,4 @@
-package com.softnet.temperature.view.ui.component.soundRecordModal
+package com.example.mvi_chatgpt.ui.common.modal
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -28,10 +28,10 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieAnimatable
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.example.mvi_chatgpt.ui.common.chat.ChatMessageType
 import com.example.mvi_chatgpt.ui.common.chat.Message
-import com.softnet.temperature.view.ui.component.chat.ChatMessageType
-import com.softnet.temperature.view.ui.component.chat.UiChatMessage
-import com.softnet.temperature.view.ui.theme.TemperatureTheme
+import com.example.mvi_chatgpt.ui.common.chat.UiChatMessage
+import com.example.mvi_chatgpt.ui.theme.MVIChatGPTTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -118,7 +118,7 @@ fun SoundAnimation(
 @Preview
 @Composable
 fun SoundRecordModalPreview() {
-    TemperatureTheme {
+    MVIChatGPTTheme {
         BottomSheetContent(
             recordState = RecordUiState(
                 systemMessage = "음성을 듣고 있습니다.",

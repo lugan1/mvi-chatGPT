@@ -4,6 +4,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.mvi_chatgpt.data.model.mapper.toChatMessages
 import com.example.mvi_chatgpt.data.repository.ChatBotRepository
 import com.example.mvi_chatgpt.ui.base.MVIViewModel
+import com.example.mvi_chatgpt.ui.common.chat.ChatMessageType
+import com.example.mvi_chatgpt.ui.common.chat.UiChatMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,7 +32,7 @@ class ChatViewModel @Inject constructor(
                 setState { copy(isShowPermission = true) }
             }
 
-            is ChatContract.Event.OnDismissPermission -> {
+            is ChatContract.Event.DismissPermission -> {
                 if(isPermissionGranted) {
                     setEffect { ChatContract.Effect.StartRecording }
                     setState { copy(isShowPermission = false, isRecording = true) }
@@ -39,6 +41,8 @@ class ChatViewModel @Inject constructor(
                     setState { copy(isShowPermission = false) }
                 }
             }
+
+            ChatContract.Event.DismissBottomSheet -> TODO()
         }
     }
 
@@ -47,7 +51,7 @@ class ChatViewModel @Inject constructor(
             copy(
                 isLoading = true,
                 inputMessage = "",
-                messageList = messageList + UiChatMessage(message, ChatRoleType.USER)
+                messageList = messageList + UiChatMessage(message, ChatMessageType.USER)
             )
         }
 
@@ -55,7 +59,7 @@ class ChatViewModel @Inject constructor(
             val allMessages = currentState.messageList.toChatMessages()
             chatBotRepository.getChatBotResponse(allMessages).collect {
                 setState {
-                    copy(isLoading = false, messageList = messageList + UiChatMessage(it, ChatRoleType.SYSTEM))
+                    copy(isLoading = false, messageList = messageList + UiChatMessage(it, ChatMessageType.BOT))
                 }
             }
         }

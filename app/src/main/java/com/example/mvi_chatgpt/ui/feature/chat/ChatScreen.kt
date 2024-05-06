@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,6 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -40,12 +42,14 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.example.mvi_chatgpt.R
 import com.example.mvi_chatgpt.ui.common.Keyboard
+import com.example.mvi_chatgpt.ui.common.PermissionActivity
 import com.example.mvi_chatgpt.ui.common.chat.ChatMessageType
 import com.example.mvi_chatgpt.ui.common.chat.UiChatMessage
 import com.example.mvi_chatgpt.ui.common.chat.defaultMessages
 import com.example.mvi_chatgpt.ui.common.keyboardAsState
 import com.example.mvi_chatgpt.ui.theme.Grey
 import com.example.mvi_chatgpt.ui.theme.MVIChatGPTTheme
+import com.softnet.temperature.view.ui.component.soundRecordModal.SoundRecordModal
 import kotlinx.coroutines.flow.Flow
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,6 +62,12 @@ fun ChatScreen(
     LaunchedEffect(key1 = Unit) {
         effectFlow?.collect { effect ->
             //todo: Side effect 처리
+        }
+    }
+
+    if(state.isShowPermission) {
+        PermissionActivity(permission = android.Manifest.permission.RECORD_AUDIO) { isGranted ->
+            onEvent(ChatContract.Event.DismissPermission(isGranted))
         }
     }
 
@@ -98,7 +108,8 @@ fun ChatScreen(
                     }
                     .padding(top = 33.dp)
                     .padding(horizontal = 24.dp),
-                state = state
+                state = state,
+                onEvent = onEvent
             )
 
             ChatBox(
@@ -117,10 +128,12 @@ fun ChatScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatBotContent(
     modifier: Modifier = Modifier,
     state: ChatContract.State,
+    onEvent: (ChatContract.Event) -> Unit,
 ) {
     val lazyListState = rememberLazyListState()
     val keyboardState = keyboardAsState()
@@ -168,6 +181,20 @@ fun ChatBotContent(
 
         item {
             Spacer(modifier = Modifier.height(60.dp))
+        }
+
+        item {
+            val sheetState = rememberModalBottomSheetState(
+                skipPartiallyExpanded = true
+            )
+            if (state.isRecording) {
+                SoundRecordModal(
+                    modifier = Modifier.height(600.dp),
+                    sheetState = sheetState,
+                    recordState = state.recordState,
+                    onDismissRequest = { onEvent(ChatContract.Event.DismissBottomSheet) },
+                )
+            }
         }
     }
 }

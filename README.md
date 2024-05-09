@@ -4,7 +4,9 @@
 
 <img src="https://github.com/lugan1/mvi-chatGPT/assets/39528583/0426cb9b-0ce9-4486-8100-ec329b78fcc0" width="200" height="400"/>
 <img src="https://github.com/lugan1/mvi-chatGPT/assets/39528583/f8b2311f-e66d-46b7-856d-1f1057f04174" width="200" height="400"/>
-  
+![KakaoTalk_20240507_054320116](https://github.com/lugan1/mvi-chatGPT/assets/39528583/d45b9607-dc9b-4b11-b76c-5adb2dcd0c1c)
+![KakaoTalk_20240507_054320116_01](https://github.com/lugan1/mvi-chatGPT/assets/39528583/ac7448a2-ca97-4e74-8920-165e5a644400)
+
 <br/>
 <br/>
   

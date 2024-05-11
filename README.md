@@ -10,25 +10,29 @@
 <br/>
 <br/>
   
-ChatGPT Compose 앱은 MVI(Model-View-Intent)를 적용해 MVVM 패턴과의 어떤점이 다른지 비교를 해볼 수 있습니다.
+MVI 패턴으로 구현한 Chat GPT Application
 
 <br/>
   
-## Description
+## Tech Stack
 
 * UI
-    * [Compose](https://developer.android.com/jetpack/compose) 선언적 UI 프레임워크
+    * [Compose](https://developer.android.com/jetpack/compose)
     * [Material design](https://material.io/design)
 
-* Tech/Tools
-    * [Kotlin](https://kotlinlang.org/) 100% 사용
-    * [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) and [Flow](https://developer.android.com/kotlin/flow) 비동기 작업
-    * [Hilt]([https://insert-koin.io/](https://developer.android.com/codelabs/android-hilt?hl=ko)) 의존성 주입
+<br/>
+
+* Dependency
+    * [Kotlin](https://kotlinlang.org/)
+    * [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) , [Flow](https://developer.android.com/kotlin/flow)
+    * [Hilt]([https://insert-koin.io/](https://developer.android.com/codelabs/android-hilt?hl=ko))
     * [Jetpack](https://developer.android.com/jetpack)
         * [Compose](https://developer.android.com/jetpack/compose)
-        * [Navigation](https://developer.android.com/topic/libraries/architecture/navigation/) composable 사이에 화면이동
-        * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) UI state 를 관리 및 변경 (reduce)
-    * [OpenAI API]([https://square.github.io/retrofit/](https://github.com/Aallam/openai-kotlin)) kotlin + OpenAI API
+        * [Navigation](https://developer.android.com/topic/libraries/architecture/navigation/)
+        * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
+    * [OpenAI API](https://github.com/Aallam/openai-kotlin)
+
+<br/>
 
 * Modern Architecture
     * Single activity architecture (with [Navigation component](https://developer.android.com/guide/navigation/navigation-getting-started))
@@ -37,7 +41,7 @@ ChatGPT Compose 앱은 MVI(Model-View-Intent)를 적용해 MVVM 패턴과의 어
     * [Android KTX](https://developer.android.com/kotlin/ktx) - Jetpack Kotlin extensions
     
 ## Architecture
-프로젝트의 구조는 뷰(View), 프리젠테이션(Presentation), 모델(Model) 으로 나뉘어져 있으며 Model-View-Intent (MVI) 패턴을 구현합니다.
+뷰(View), 프리젠테이션(Presentation), 모델(Model) 으로 나뉘어져 있으며 Model-View-Intent (MVI) 패턴을 사용합니다.
 <br/>
 
 ![1_xprZjYydI9YhVKC3CKp-dQ (1)](https://github.com/lugan1/mvi-chatGPT/assets/39528583/d44304b7-3e6f-4e0b-acf5-e4679785bd6e)

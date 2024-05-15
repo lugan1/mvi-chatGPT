@@ -35,7 +35,7 @@
     * [Android KTX](https://developer.android.com/kotlin/ktx) - Jetpack Kotlin extensions
     
 ## Architecture
-뷰(View), 프리젠테이션(Presentation), 모델(Model) 으로 나뉘어져 있으며 Model-View-Intent (MVI) 패턴을 사용합니다.
+**뷰(View)**, **뷰모델(ViewModel)**, **모델(Model)** 으로 나뉘어져 있으며 Model-View-Intent (MVI) 패턴을 사용합니다.
 <br/>
 
 ![1_xprZjYydI9YhVKC3CKp-dQ (1)](https://github.com/lugan1/mvi-chatGPT/assets/39528583/d44304b7-3e6f-4e0b-acf5-e4679785bd6e)
